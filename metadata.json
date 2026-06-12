@@ -1,0 +1,6 @@
+{
+  "name": "OPTANIUM",
+  "description": "AI-Powered Intergalactic Mission Optimization Platform for rockets, satellites, and propulsion systems.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
