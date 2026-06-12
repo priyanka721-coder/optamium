@@ -7,6 +7,7 @@ import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { Target, TrendingDown, Clock, Banknote, ShieldCheck, AlertTriangle, Skull, ChevronRight } from 'lucide-react';
 import { useMission } from '../context/MissionContext';
+import MissionReport from './MissionReport';
 
 export default function SuccessAnalysis() {
   const { optimization } = useMission();
@@ -133,13 +134,16 @@ export default function SuccessAnalysis() {
             </p>
           </div>
         </div>
-        <button 
-          onClick={() => navigate('/testing')}
-          className="flex items-center gap-3 px-10 py-4 bg-sky-600 text-white font-black text-xs rounded hover:bg-sky-700 transition-all uppercase tracking-[0.2em] group mt-8 shadow-md"
-        >
-          Proceed to AI Test Lab
-          <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform" />
-        </button>
+        <div className="lg:col-span-12 flex flex-wrap gap-4 mt-8">
+          <button 
+            onClick={() => navigate('/testing')}
+            className="flex items-center gap-3 px-10 py-4 bg-sky-600 text-white font-black text-xs rounded hover:bg-sky-700 transition-all uppercase tracking-[0.2em] group shadow-md"
+          >
+            Proceed to AI Test Lab
+            <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform" />
+          </button>
+          <MissionReport />
+        </div>
       </div>
     </motion.div>
   );
