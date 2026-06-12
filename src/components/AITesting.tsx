@@ -6,10 +6,17 @@
 import { motion } from 'motion/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import { Cpu, ShieldCheck, Microscope, Database, Workflow, ChevronRight } from 'lucide-react';
+import { Cpu, ShieldCheck, Microscope, Database, Workflow, ChevronRight, MapPin, Fuel, Activity } from 'lucide-react';
+import { useMission } from '../context/MissionContext';
+import { destinations, fuelTypes } from '../rockets';
 
 export default function AITesting() {
+  const { selectedRocket: rocket, missionParams } = useMission();
   const navigate = useNavigate();
+  
+  const destination = destinations.find(d => d.id === missionParams?.destination) || destinations[0];
+  const fuel = fuelTypes.find(f => f.id === missionParams?.fuelType) || fuelTypes[0];
+
   const trendData = [
     { name: 'T-100', accuracy: 0.92, precision: 0.90, recall: 0.91 },
     { name: 'T-80', accuracy: 0.94, precision: 0.93, recall: 0.92 },
@@ -32,6 +39,32 @@ export default function AITesting() {
       animate={{ opacity: 1, scale: 1 }}
       className="space-y-8"
     >
+      {/* Parameter Profile */}
+      {rocket && missionParams && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: 'Vessel', value: rocket.name, img: rocket.imageUrl, icon: Cpu },
+            { label: 'Target', value: destination.name, img: destination.imageUrl, icon: MapPin },
+            { label: 'Propellant', value: fuel.name, img: fuel.imageUrl, icon: Fuel },
+            { label: 'Logistics', value: `${missionParams.duration}D / ${missionParams.payloadWeight}T`, img: 'https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?auto=format&fit=crop&q=80&w=400', icon: Activity },
+          ].map((param) => (
+            <div key={param.label} className="bg-white rounded-xl border border-sky-100 overflow-hidden shadow-sm group">
+            <div className="h-16 relative overflow-hidden">
+                <img src={param.img} className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" alt="" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+                <div className="absolute bottom-1.5 left-3 flex items-center gap-1.5">
+                  <param.icon size={10} className="text-sky-600" />
+                  <span className="text-[7px] font-black uppercase text-slate-800 tracking-widest">{param.label}</span>
+                </div>
+              </div>
+              <div className="px-3 py-1.5">
+                <p className="text-[9px] font-bold text-slate-950 uppercase truncate leading-tight">{param.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="flex justify-between items-end border-b border-sky-100 pb-8">
         <div className="space-y-1">
           <h2 className="text-2xl font-black flex items-center gap-3 text-slate-900 uppercase tracking-tight">

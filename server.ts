@@ -20,11 +20,23 @@ const ai = new GoogleGenAI({
   }
 });
 
+// API routes go here FIRST
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 // API endpoint for AI Optimization
 app.post("/api/optimize", async (req, res) => {
+  console.log(`[${new Date().toISOString()}] POST /api/optimize - Input:`, {
+    rocketName: req.body?.rocket?.name,
+    destination: req.body?.mission?.destination,
+    payload: req.body?.mission?.payloadWeight
+  });
+
   const { rocket, mission } = req.body;
 
   if (!rocket || !mission) {
+    console.error("BadRequest: Missing rocket or mission data in request body");
     return res.status(400).json({ error: "Missing rocket or mission data" });
   }
 
@@ -73,7 +85,7 @@ app.post("/api/optimize", async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
+      model: "gemini-3.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",

@@ -5,11 +5,12 @@
 
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { Cpu, Zap, Wind, Shield, Settings, Activity, ChevronRight } from 'lucide-react';
+import { Cpu, Zap, Wind, Shield, Settings, Activity, ChevronRight, MapPin, Fuel, Clock, Weight } from 'lucide-react';
 import { useMission } from '../context/MissionContext';
+import { destinations, fuelTypes } from '../rockets';
 
 export default function OptimizationResults() {
-  const { isOptimizing, optimization, selectedRocket: rocket } = useMission();
+  const { isOptimizing, optimization, selectedRocket: rocket, missionParams } = useMission();
   const navigate = useNavigate();
 
   if (isOptimizing) {
@@ -48,12 +49,39 @@ export default function OptimizationResults() {
     { title: 'Structures', icon: Settings, items: optimization.structuralModifications },
   ];
 
+  const destination = destinations.find(d => d.id === missionParams?.destination) || destinations[0];
+  const fuel = fuelTypes.find(f => f.id === missionParams?.fuelType) || fuelTypes[0];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="space-y-8"
     >
+      {/* Parameter Profile */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { label: 'Vessel', value: rocket.name, img: rocket.imageUrl, icon: Cpu },
+          { label: 'Target', value: destination.name, img: destination.imageUrl, icon: MapPin },
+          { label: 'Propellant', value: fuel.name, img: fuel.imageUrl, icon: Fuel },
+          { label: 'Logistics', value: `${missionParams?.duration}D / ${missionParams?.payloadWeight}T`, img: 'https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?auto=format&fit=crop&q=80&w=400', icon: Activity },
+        ].map((param) => (
+          <div key={param.label} className="bg-white rounded-xl border border-sky-100 overflow-hidden shadow-sm group">
+            <div className="h-20 relative overflow-hidden">
+              <img src={param.img} className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" alt="" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+              <div className="absolute bottom-2 left-3 flex items-center gap-1.5">
+                <param.icon size={12} className="text-sky-600" />
+                <span className="text-[8px] font-black uppercase text-slate-800 tracking-widest">{param.label}</span>
+              </div>
+            </div>
+            <div className="px-3 py-2">
+              <p className="text-[10px] font-bold text-slate-950 uppercase truncate leading-tight">{param.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="flex justify-between items-center bg-white p-6 rounded-xl border border-sky-200 shadow-sm relative overflow-hidden">
         {optimization.isSimulation && (
           <div className="absolute top-0 right-0 px-3 py-1 bg-amber-500 text-white text-[8px] font-black uppercase tracking-widest rounded-bl-lg shadow-sm">

@@ -10,7 +10,7 @@ export const rockets: Rocket[] = [
     id: 'falcon-heavy',
     name: 'Falcon Heavy',
     type: 'rocket',
-    imageUrl: '/src/assets/images/falcon_heavy_launch_1781252749051.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=60&w=800',
     engineDetails: '27 Merlin 1D engines',
     fuelCapacity: 450,
     payloadCapacity: 63.8,
@@ -22,7 +22,7 @@ export const rockets: Rocket[] = [
     id: 'starship',
     name: 'Starship',
     type: 'rocket',
-    imageUrl: '/src/assets/images/spacex_starship_orbit_1781252764945.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=60&w=800',
     engineDetails: 'Raptor Vacuum Engines (3x SL, 3x Vac)',
     fuelCapacity: 1200,
     payloadCapacity: 150,
@@ -34,7 +34,7 @@ export const rockets: Rocket[] = [
     id: 'sls',
     name: 'SLS',
     type: 'rocket',
-    imageUrl: '/src/assets/images/nasa_sls_artemis_1781252781292.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=60&w=800',
     engineDetails: '4 RS-25 engines + 2 Solid Rocket Boosters',
     fuelCapacity: 980,
     payloadCapacity: 95,
@@ -46,7 +46,7 @@ export const rockets: Rocket[] = [
     id: 'ariane-6',
     name: 'Ariane 6',
     type: 'rocket',
-    imageUrl: '/src/assets/images/ariane_6_rocket_1781252826694.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1454789548928-142511478201?auto=format&fit=crop&q=60&w=800',
     engineDetails: 'Vulcain 2.1 + Vinci engines',
     fuelCapacity: 250,
     payloadCapacity: 21.6,
@@ -58,7 +58,7 @@ export const rockets: Rocket[] = [
     id: 'new-glenn',
     name: 'New Glenn',
     type: 'rocket',
-    imageUrl: '/src/assets/images/blue_origin_new_glenn_1781252799903.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=60&w=800',
     engineDetails: '7 BE-4 engines',
     fuelCapacity: 600,
     payloadCapacity: 45,
@@ -70,7 +70,7 @@ export const rockets: Rocket[] = [
     id: 'starlink-v2',
     name: 'Starlink V2.0',
     type: 'satellite',
-    imageUrl: '/src/assets/images/starlink_v2_satellite_1781252844214.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=60&w=800',
     engineDetails: 'Krypton Ion Thrusters',
     fuelCapacity: 50,
     payloadCapacity: 0.8,
@@ -82,7 +82,7 @@ export const rockets: Rocket[] = [
     id: 'jwst',
     name: 'James Webb (JWST)',
     type: 'satellite',
-    imageUrl: '/src/assets/images/jwst_telescope_deep_space_1781252859063.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=60&w=800',
     engineDetails: 'MRE-1 Monopropellant Engines',
     fuelCapacity: 150,
     payloadCapacity: 6.5,
@@ -96,37 +96,37 @@ export const destinations: Destination[] = [
   {
     id: 'mars',
     name: 'Mars (Valles Marineris)',
-    imageUrl: '/src/assets/images/mars_valles_marineris_1781252638113.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bac4?auto=format&fit=crop&q=80&w=800',
     description: 'The Red Planet, focused on the massive canyon system Valles Marineris.'
   },
   {
     id: 'europa',
     name: 'Europa (Jovian Moon)',
-    imageUrl: '/src/assets/images/europa_jovian_moon_1781252657089.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?auto=format&fit=crop&q=80&w=800',
     description: 'Jupiter\'s icy moon, suspected to harbor a subsurface liquid water ocean.'
   },
   {
     id: 'titan',
     name: 'Titan (Saturnian Moon)',
-    imageUrl: '/src/assets/images/titan_saturnian_moon_1781252672948.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?auto=format&fit=crop&q=60&w=800',
     description: 'Saturn\'s largest moon with a thick atmosphere and liquid methane lakes.'
   },
   {
     id: 'alpha-centauri',
     name: 'Alpha Centauri (Proxima b)',
-    imageUrl: '/src/assets/images/alpha_centauri_proxima_b_1781252691051.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=60&w=800',
     description: 'The closest star system, targeting the Earth-sized planet Proxima b.'
   },
   {
     id: 'kepler-186f',
     name: 'Kepler-186f (Exoplanet)',
-    imageUrl: '/src/assets/images/kepler_186f_exoplanet_1781252709148.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
     description: 'An Earth-sized planet orbiting a red dwarf star 500 light-years away.'
   },
   {
     id: 'luhman-16',
     name: 'Luhman 16 (Brown Dwarf)',
-    imageUrl: '/src/assets/images/luhman_16_brown_dwarf_1781252727212.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1464802686167-b939a6910659?auto=format&fit=crop&q=80&w=800',
     description: 'The closest brown dwarf system, consisting of two sub-stellar objects.'
   },
 ];
@@ -153,7 +153,7 @@ export const fuelTypes: FuelType[] = [
   {
     id: 'nuclear',
     name: 'Nuclear Thermal',
-    imageUrl: 'https://images.unsplash.com/photo-1518364538800-6034f1a709d0?auto=format&fit=crop&q=80&w=400',
+    imageUrl: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80&w=400',
     description: 'Experimental high-efficiency propulsion using nuclear reactors to heat propellant.'
   },
   {

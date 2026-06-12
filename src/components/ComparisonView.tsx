@@ -6,15 +6,17 @@
 import { motion } from 'motion/react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import { AlertCircle, ShieldAlert, Rocket as RocketIcon, Info, BarChart3, Search, ChevronRight } from 'lucide-react';
+import { AlertCircle, ShieldAlert, Rocket as RocketIcon, Info, BarChart3, Search, ChevronRight, MapPin, Fuel } from 'lucide-react';
 import { useMission } from '../context/MissionContext';
+import { destinations, fuelTypes } from '../rockets';
 
 export default function ComparisonView() {
-  const { optimization, selectedRocket: rocket } = useMission();
+  const { optimization, selectedRocket: rocket, missionParams } = useMission();
   const navigate = useNavigate();
 
-  if (!optimization || !rocket) {
+  if (!optimization || !rocket || !missionParams) {
     return (
+// ... (rest of the initial check)
       <div className="flex flex-col items-center justify-center min-h-[500px] gap-6 text-center">
         <div className="w-20 h-20 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-400 border border-sky-100">
           <BarChart3 size={40} />
@@ -43,6 +45,8 @@ export default function ComparisonView() {
     { name: 'Original', value: 100 },
     { name: 'AI Optimized', value: 100 - optimization.savings.cost },
   ];
+
+  const destination = destinations.find(d => d.id === missionParams.destination) || destinations[0];
 
   return (
     <motion.div
@@ -122,8 +126,8 @@ export default function ComparisonView() {
             </h3>
             <p className="text-[11px] text-slate-900 font-mono leading-relaxed mb-6 font-medium">
               The primary objective of this view is to visualize the <span className="text-sky-900 font-black italic">Efficiency Delta</span>. 
-              The AI doesn't just "guess"; it recalculates the entire physics model based on the {rocket.fuelType} properties 
-              and the {rocket.payload}t load constraint.
+              The AI doesn't just "guess"; it recalculates the entire physics model based on the {missionParams.fuelType} properties 
+              and the {missionParams.payloadWeight}t load constraint.
             </p>
           </div>
           
@@ -147,26 +151,33 @@ export default function ComparisonView() {
             Structural Vector Comparison
           </h3>
           <div className="grid grid-cols-2 gap-4 h-[350px]">
-            <div className="bg-white rounded-xl border border-sky-100 p-8 flex flex-col items-center justify-center relative overflow-hidden group shadow-sm">
-              <span className="text-[8px] uppercase font-mono text-slate-700 font-bold absolute top-3 left-4 tracking-tighter">REF_ORIGINAL</span>
-              <img src={rocket.imageUrl} alt="Rocket" className="w-full h-full max-h-[300px] object-contain opacity-40 grayscale transition-transform group-hover:scale-105 duration-700" referrerPolicy="no-referrer" />
-              <div className="absolute inset-x-4 bottom-4 space-y-1 opacity-20">
+            <div className="bg-white rounded-xl border border-sky-100 p-8 flex flex-col items-center justify-center relative overflow-hidden group shadow-sm bg-slate-50/30">
+              <div className="absolute inset-0 opacity-10 grayscale group-hover:grayscale-0 transition-opacity duration-1000">
+                <img src={destination.imageUrl} className="w-full h-full object-cover" referrerPolicy="no-referrer" alt="" />
+              </div>
+              <span className="text-[8px] uppercase font-mono text-slate-700 font-bold absolute top-3 left-4 tracking-tighter z-10">REF_ORIGINAL</span>
+              <img src={rocket.imageUrl} alt="Rocket" className="w-full h-full max-h-[280px] object-contain opacity-40 grayscale transition-transform group-hover:scale-105 duration-700 hover:grayscale-0 z-10" referrerPolicy="no-referrer" />
+              <div className="absolute inset-x-4 bottom-4 space-y-1 opacity-20 group-hover:opacity-40 transition-opacity z-10">
                 <div className="h-0.5 bg-slate-400 w-full rounded" />
                 <div className="h-0.5 bg-slate-400 w-2/3 rounded" />
               </div>
             </div>
             
             <div className="bg-white rounded-xl border-2 border-sky-500 p-8 flex flex-col items-center justify-center relative overflow-hidden shadow-lg bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_#ffffff_100%)]">
-              <span className="text-[8px] uppercase font-mono text-sky-600 absolute top-3 left-4 tracking-tighter">REF_OPTIMIZED</span>
-              <img src={rocket.imageUrl} alt="Rocket" className="w-full h-full max-h-[300px] object-contain drop-shadow-[0_0_30px_rgba(2,132,199,0.2)]" referrerPolicy="no-referrer" />
-              <div className="absolute inset-x-4 bottom-4 space-y-1">
+              <div className="absolute inset-0 opacity-20 transition-opacity duration-1000 group-hover:opacity-30">
+                <img src={destination.imageUrl} className="w-full h-full object-cover" referrerPolicy="no-referrer" alt="" />
+              </div>
+              <span className="text-[8px] uppercase font-mono text-sky-600 absolute top-3 left-4 tracking-tighter z-10">REF_OPTIMIZED</span>
+              <img src={rocket.imageUrl} alt="Rocket" className="w-full h-full max-h-[280px] object-contain drop-shadow-[0_10px_40px_rgba(2,132,199,0.3)] hover:scale-105 transition-transform duration-500 z-10" referrerPolicy="no-referrer" />
+              <div className="absolute inset-x-4 bottom-4 space-y-1 z-10">
                 <div className="h-0.5 bg-sky-600 w-full rounded shadow-sm" />
                 <div className="h-0.5 bg-sky-600 w-[90%] rounded shadow-sm" />
               </div>
-              <div className="absolute top-1/4 left-1/4 w-12 h-12 bg-sky-400/20 rounded-full blur-2xl animate-pulse" />
+              <div className="absolute top-1/4 left-1/4 w-12 h-12 bg-sky-400/20 rounded-full blur-2xl animate-pulse z-0" />
             </div>
           </div>
         </div>
+
 
         {/* Charts */}
         <div className="lg:col-span-6 space-y-4">

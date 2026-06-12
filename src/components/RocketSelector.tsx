@@ -39,8 +39,8 @@ export default function RocketSelector({ onOptimize }: RocketSelectorProps) {
   const handleNext = () => {
     if (selectedRocket) {
       onOptimize(selectedRocket, {
-        destination: selectedDestination.name,
-        fuelType: selectedFuelType.name,
+        destination: selectedDestination.id,
+        fuelType: selectedFuelType.id,
         duration,
         payloadWeight: payload,
       });
@@ -132,93 +132,132 @@ export default function RocketSelector({ onOptimize }: RocketSelectorProps) {
         </div>
 
         {/* Param Details */}
-        <div className="lg:col-span-4 space-y-6 bg-white p-6 rounded-xl border border-sky-100 self-start shadow-sm">
-          <h3 className="text-xs font-bold text-sky-600 uppercase tracking-wider flex items-center gap-2">
-            <MapPin size={14} />
-            Target Protocols
-          </h3>
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <div className="h-24 w-full rounded-lg overflow-hidden relative border border-sky-100 bg-slate-50">
-                <img 
-                  src={selectedDestination.imageUrl} 
-                  alt={selectedDestination.name}
-                  className="w-full h-full object-cover opacity-80"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
-                <div className="absolute bottom-2 left-2">
-                  <p className="text-[10px] font-bold text-slate-800 uppercase">{selectedDestination.name}</p>
-                </div>
-              </div>
-              <label className="text-[9px] font-mono text-slate-700 uppercase tracking-widest">Destination Vector</label>
-              <select 
-                className="w-full bg-sky-50 border border-sky-200 rounded-lg p-2 text-xs focus:outline-none focus:border-sky-500 transition-all font-mono text-slate-800"
-                value={destinationId}
-                onChange={(e) => setDestinationId(e.target.value)}
-              >
-                {destinations.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-              </select>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-[9px] font-mono text-slate-700 uppercase tracking-widest leading-none flex justify-between">
-                <span>Duration Protocol</span>
-                <span className="text-sky-600">Selection Required</span>
-              </label>
-              <select 
-                className="w-full bg-sky-50 border border-sky-200 rounded-lg p-2 text-xs focus:outline-none focus:border-sky-500 transition-all font-mono text-slate-800"
-                value={duration}
-                onChange={(e) => setDuration(parseInt(e.target.value))}
-              >
-                {durations.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
-              </select>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-[9px] font-mono text-slate-700 uppercase tracking-widest leading-none flex justify-between">
-                <span>Payload Capacity</span>
-                <span className="text-sky-600">Protocol Set</span>
-              </label>
-              <select 
-                className="w-full bg-sky-50 border border-sky-200 rounded-lg p-2 text-xs focus:outline-none focus:border-sky-500 transition-all font-mono text-slate-800"
-                value={payload}
-                onChange={(e) => setPayload(parseInt(e.target.value))}
-              >
-                {payloadWeights.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-3 p-2 bg-sky-50 border border-sky-100 rounded-lg">
-                <div className="w-8 h-8 rounded bg-white overflow-hidden flex-shrink-0 border border-sky-100">
-                  <img src={selectedFuelType.imageUrl} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-[9px] text-sky-700 font-black uppercase tracking-widest">Selected Fuel</p>
-                  <p className="text-[10px] text-slate-900 font-mono">{selectedFuelType.name}</p>
-                </div>
-              </div>
-              <label className="text-[9px] font-mono text-slate-700 uppercase tracking-widest">Fuel Synthesis</label>
-              <select 
-                className="w-full bg-sky-50 border border-sky-200 rounded-lg p-2 text-xs focus:outline-none focus:border-sky-500 transition-all font-mono text-slate-800"
-                value={fuelTypeId}
-                onChange={(e) => setFuelTypeId(e.target.value)}
-              >
-                {fuelTypes.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
-              </select>
+        <div className="lg:col-span-4 space-y-6 self-start">
+          {/* Destination Gallery */}
+          <div className="bg-white p-5 rounded-xl border border-sky-100 shadow-sm space-y-4">
+            <h3 className="text-[10px] font-black text-sky-600 uppercase tracking-[0.2em] flex items-center gap-2">
+              <MapPin size={14} strokeWidth={3} />
+              Orbit Destination
+            </h3>
+            
+            <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar snap-x">
+              {destinations.map((dest) => (
+                <button
+                  key={dest.id}
+                  onClick={() => setDestinationId(dest.id)}
+                  className={`flex-shrink-0 w-28 group snap-start transition-all ${
+                    destinationId === dest.id ? 'opacity-100' : 'opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <div className={`h-28 rounded-lg overflow-hidden border-2 mb-2 transition-all ${
+                    destinationId === dest.id ? 'border-sky-500 shadow-md ring-2 ring-sky-100' : 'border-slate-100'
+                  }`}>
+                    <img 
+                      src={dest.imageUrl} 
+                      alt={dest.name} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <p className={`text-[8px] font-bold uppercase tracking-tight text-center leading-tight ${
+                    destinationId === dest.id ? 'text-sky-700' : 'text-slate-600'
+                  }`}>
+                    {dest.name.split(' ')[0]}
+                  </p>
+                </button>
+              ))}
             </div>
           </div>
 
-          <button
-            disabled={!selectedRocket}
-            onClick={handleNext}
-            className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-sky-600 text-white font-bold text-xs rounded transition-all hover:bg-sky-700 disabled:opacity-50 disabled:grayscale uppercase tracking-widest shadow-md"
-          >
-            Execute Optimized Sortie
-            <ChevronRight size={14} />
-          </button>
+          {/* Fuel Synthesis Grid */}
+          <div className="bg-white p-5 rounded-xl border border-sky-100 shadow-sm space-y-4">
+            <h3 className="text-[10px] font-black text-sky-600 uppercase tracking-[0.2em] flex items-center gap-2">
+              <Fuel size={14} strokeWidth={3} />
+              Propellant Mix
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-3">
+              {fuelTypes.map((fuel) => (
+                <button
+                  key={fuel.id}
+                  onClick={() => setFuelTypeId(fuel.id)}
+                  className={`relative p-2 rounded-lg border flex items-center gap-2 transition-all ${
+                    fuelTypeId === fuel.id 
+                      ? 'border-sky-500 bg-sky-50 shadow-sm' 
+                      : 'border-slate-100 bg-slate-50 hover:border-sky-200'
+                  }`}
+                >
+                  <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0">
+                    <img src={fuel.imageUrl} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  </div>
+                  <span className={`text-[8px] font-bold uppercase tracking-tighter text-left ${
+                    fuelTypeId === fuel.id ? 'text-sky-700' : 'text-slate-600'
+                  }`}>
+                    {fuel.name.replace(' / LOX', '').replace(' (Methalox)', '')}
+                  </span>
+                  {fuelTypeId === fuel.id && (
+                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-sky-500 rounded-full animate-pulse" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Logistics Configuration */}
+          <div className="bg-white p-5 rounded-xl border border-sky-100 shadow-sm space-y-5">
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em] flex items-center gap-2">
+                <Clock size={14} strokeWidth={3} />
+                Mission Window
+              </h3>
+              <div className="flex gap-2">
+                {durations.slice(0, 3).map((d) => (
+                  <button 
+                    key={d.value}
+                    onClick={() => setDuration(d.value)}
+                    className={`flex-1 py-2 rounded text-[10px] font-bold transition-all border ${
+                      duration === d.value 
+                        ? 'bg-slate-900 border-slate-900 text-white shadow-md' 
+                        : 'bg-white border-slate-200 text-slate-600 hover:border-slate-400'
+                    }`}
+                  >
+                    {d.value}D
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em] flex items-center gap-2">
+                <Weight size={14} strokeWidth={3} />
+                Payload Mass
+              </h3>
+              <div className="flex gap-2">
+                {[5, 25, 50, 100].map((w) => (
+                  <button 
+                    key={w}
+                    onClick={() => setPayload(w)}
+                    className={`flex-1 py-2 rounded text-[10px] font-bold transition-all border ${
+                      payload === w 
+                        ? 'bg-slate-900 border-slate-900 text-white shadow-md' 
+                        : 'bg-white border-slate-200 text-slate-600 hover:border-slate-400'
+                    }`}
+                  >
+                    {w}T
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button
+              disabled={!selectedRocket}
+              onClick={handleNext}
+              className="w-full mt-4 flex items-center justify-center gap-3 py-4 bg-sky-600 text-white font-black text-xs rounded hover:bg-sky-700 disabled:opacity-50 disabled:grayscale uppercase tracking-[0.2em] shadow-lg transition-all active:scale-95 group"
+            >
+              Execute Optimized Sortie
+              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>

@@ -33,6 +33,12 @@ export function MissionProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ rocket, mission: params }),
       });
       
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Optimization API error:', response.status, errorText);
+        throw new Error(`Server returned ${response.status}: ${errorText.substring(0, 100)}`);
+      }
+
       const isSimulation = response.headers.get('X-Optimization-Source') === 'simulation';
       const data = await response.json();
       if (data.error) throw new Error(data.error);
