@@ -71,6 +71,7 @@ export interface OptimizationResult {
     time: number; // percentage
     cost: number; // percentage
   };
+  isSimulation?: boolean;
 }
 
 export interface AIMetrics {

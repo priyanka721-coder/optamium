@@ -33,9 +33,11 @@ export function MissionProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ rocket, mission: params }),
       });
       
+      const isSimulation = response.headers.get('X-Optimization-Source') === 'simulation';
       const data = await response.json();
       if (data.error) throw new Error(data.error);
-      setOptimization(data);
+      
+      setOptimization({ ...data, isSimulation });
     } catch (error) {
       console.error('Optimization failed:', error);
       setOptimization(null);

@@ -73,7 +73,7 @@ app.post("/api/optimize", async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-flash-latest",
+      model: "gemini-3.1-flash-lite",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -148,17 +148,29 @@ app.post("/api/optimize", async (req, res) => {
     const result = JSON.parse(text);
     res.json(result);
   } catch (error: any) {
+    const errorMsg = error?.message || "";
+    const errorStatus = String(error?.status || "");
+    const errorCode = String(error?.code || "");
+    const errorBody = typeof error?.toString === 'function' ? error.toString() : "";
+    
     const isQuotaError = 
-      error.message?.includes("429") || 
-      error.status === "RESOURCE_EXHAUSTED" || 
-      error.message?.includes("quota") ||
-      error.toString().toLowerCase().includes("exhausted");
+      errorMsg.includes("429") || 
+      errorMsg.toLowerCase().includes("quota") ||
+      errorStatus === "RESOURCE_EXHAUSTED" || 
+      errorStatus === "429" ||
+      errorCode === "429" ||
+      errorBody.includes("429") ||
+      errorBody.toLowerCase().includes("quota") ||
+      errorBody.toLowerCase().includes("exhausted");
     
     if (isQuotaError) {
       console.warn("Gemini API quota exceeded, using high-fidelity fallback optimization engine.");
     } else {
-      console.error("Gemini Error:", error);
+      console.error("Gemini API Error:", error);
     }
+    
+    // Add a marker to the response so the frontend can optionally show it's a simulation
+    res.set('X-Optimization-Source', isQuotaError ? 'simulation' : 'ai-engine');
     
     // Fallback mechanism to ensure app functionality during quota exhaustion or API failure
     // Calculate mock savings based on rocket specs

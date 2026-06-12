@@ -54,13 +54,22 @@ export default function OptimizationResults() {
       animate={{ opacity: 1 }}
       className="space-y-8"
     >
-      <div className="flex justify-between items-center bg-white p-6 rounded-xl border border-sky-200 shadow-sm">
+      <div className="flex justify-between items-center bg-white p-6 rounded-xl border border-sky-200 shadow-sm relative overflow-hidden">
+        {optimization.isSimulation && (
+          <div className="absolute top-0 right-0 px-3 py-1 bg-amber-500 text-white text-[8px] font-black uppercase tracking-widest rounded-bl-lg shadow-sm">
+            High-Fidelity Simulation Active
+          </div>
+        )}
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <span className="px-2 py-0.5 bg-sky-600 text-white text-[8px] font-black uppercase tracking-tighter rounded">AI SUGGESTED</span>
+            <span className={`px-2 py-0.5 ${optimization.isSimulation ? 'bg-amber-500' : 'bg-sky-600'} text-white text-[8px] font-black uppercase tracking-tighter rounded`}>
+              {optimization.isSimulation ? 'SIMULATION MODE' : 'AI SUGGESTED'}
+            </span>
             <h2 className="text-xl font-black tracking-tight uppercase text-slate-900">Optimization Report</h2>
           </div>
-          <p className="text-[10px] text-slate-900 font-mono uppercase tracking-widest font-bold">Heuristic refinements for {rocket.name} vector</p>
+          <p className="text-[10px] text-slate-900 font-mono uppercase tracking-widest font-bold">
+            {optimization.isSimulation ? 'Internal physics heuristics applied' : `Heuristic refinements for ${rocket.name} vector`}
+          </p>
         </div>
         <div className="flex gap-6 text-right font-mono">
           <div>
