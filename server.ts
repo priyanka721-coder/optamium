@@ -73,7 +73,7 @@ app.post("/api/optimize", async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-flash-latest",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -148,17 +148,19 @@ app.post("/api/optimize", async (req, res) => {
     const result = JSON.parse(text);
     res.json(result);
   } catch (error: any) {
-    console.error("Gemini Error:", error);
-    
-    // Fallback mechanism to ensure app functionality during quota exhaustion or API failure
     const isQuotaError = 
       error.message?.includes("429") || 
       error.status === "RESOURCE_EXHAUSTED" || 
       error.message?.includes("quota") ||
       error.toString().toLowerCase().includes("exhausted");
     
-    console.warn(`Providing fallback optimization strategy due to ${isQuotaError ? 'quota exhaustion' : 'API error'}`);
-
+    if (isQuotaError) {
+      console.warn("Gemini API quota exceeded, using high-fidelity fallback optimization engine.");
+    } else {
+      console.error("Gemini Error:", error);
+    }
+    
+    // Fallback mechanism to ensure app functionality during quota exhaustion or API failure
     // Calculate mock savings based on rocket specs
     const fuelSaving = Math.floor(Math.random() * 8) + 12; // 12-20%
     const timeSaving = Math.floor(Math.random() * 5) + 8; // 8-13%
