@@ -147,18 +147,18 @@ export default function ComparisonView() {
             Structural Vector Comparison
           </h3>
           <div className="grid grid-cols-2 gap-4 h-[350px]">
-            <div className="bg-white rounded-xl border border-sky-100 p-4 flex flex-col items-center justify-center relative overflow-hidden group shadow-sm">
+            <div className="bg-white rounded-xl border border-sky-100 p-8 flex flex-col items-center justify-center relative overflow-hidden group shadow-sm">
               <span className="text-[8px] uppercase font-mono text-slate-700 font-bold absolute top-3 left-4 tracking-tighter">REF_ORIGINAL</span>
-              <img src={rocket.imageUrl} alt="Rocket" className="w-12 h-3/4 object-contain opacity-40 grayscale" referrerPolicy="no-referrer" />
+              <img src={rocket.imageUrl} alt="Rocket" className="w-full h-full max-h-[260px] object-contain opacity-40 grayscale transition-transform group-hover:scale-105 duration-700" referrerPolicy="no-referrer" />
               <div className="absolute inset-x-4 bottom-4 space-y-1 opacity-20">
                 <div className="h-0.5 bg-slate-400 w-full rounded" />
                 <div className="h-0.5 bg-slate-400 w-2/3 rounded" />
               </div>
             </div>
             
-            <div className="bg-white rounded-xl border-2 border-sky-500 p-4 flex flex-col items-center justify-center relative overflow-hidden shadow-lg bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_#ffffff_100%)]">
+            <div className="bg-white rounded-xl border-2 border-sky-500 p-8 flex flex-col items-center justify-center relative overflow-hidden shadow-lg bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_#ffffff_100%)]">
               <span className="text-[8px] uppercase font-mono text-sky-600 absolute top-3 left-4 tracking-tighter">REF_OPTIMIZED</span>
-              <img src={rocket.imageUrl} alt="Rocket" className="w-12 h-3/4 object-contain" referrerPolicy="no-referrer" />
+              <img src={rocket.imageUrl} alt="Rocket" className="w-full h-full max-h-[280px] object-contain drop-shadow-[0_0_30px_rgba(2,132,199,0.2)]" referrerPolicy="no-referrer" />
               <div className="absolute inset-x-4 bottom-4 space-y-1">
                 <div className="h-0.5 bg-sky-600 w-full rounded shadow-sm" />
                 <div className="h-0.5 bg-sky-600 w-[90%] rounded shadow-sm" />
